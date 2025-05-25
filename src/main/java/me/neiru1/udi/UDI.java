@@ -40,7 +40,7 @@ public class UDI {
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        LOGGER.info("[UnDroppableItems] Setup complete. Version: {}", version);
+        LOGGER.info("[UDI] Setup complete. Version: {}", version);
     }
 
     public static ModConfig getConfig() {
