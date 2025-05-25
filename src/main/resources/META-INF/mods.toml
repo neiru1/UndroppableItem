@@ -4,7 +4,7 @@ license="All rights reserved"
 
 [[mods]]
 modId="udi"
-version="0.7"
+version="1.0.1"
 displayName="UndroppableItem"
 description='''
 Adds the ability to disable specified item from dropped or moved away from inventory

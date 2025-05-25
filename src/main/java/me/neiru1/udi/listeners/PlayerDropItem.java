@@ -8,6 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraft.ChatFormatting;
 
 import java.util.List;
 
@@ -19,7 +20,6 @@ public class PlayerDropItem {
         Player player = event.getPlayer();
         ItemStack itemStack = event.getEntity().getItem();
 
-        // Get registry name
         ResourceLocation regName = itemStack.getItem().builtInRegistryHolder().key().location();
         if (regName == null) return;
 
@@ -27,14 +27,14 @@ public class PlayerDropItem {
         List<? extends String> undroppableItems = ModConfig.undroppableItems.get();
         String cannotDropMessage = ModConfig.cannotDropMessage.get();
 
-        // If item is undroppable, cancel drop and notify player
+        // drop script
         if (undroppableItems.contains(itemType)) {
             event.setCanceled(true);
-            // Give the item back (for drag-drop safety, though usually not needed)
+            // give the item back for drag-drop safety
             player.getInventory().placeItemBackInInventory(itemStack);
 
             if (cannotDropMessage != null && !cannotDropMessage.isBlank()) {
-                player.sendSystemMessage(Component.literal(cannotDropMessage));
+                player.sendSystemMessage(Component.literal(cannotDropMessage).withStyle(style -> style.withColor(ChatFormatting.RED)));
             }
         }
     }

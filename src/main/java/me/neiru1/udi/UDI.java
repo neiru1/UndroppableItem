@@ -10,10 +10,6 @@ import net.minecraftforge.fml.config.ModConfig.Type;
 import org.slf4j.Logger;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig.Type;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import net.minecraftforge.event.RegisterCommandsEvent;
 
 
@@ -26,8 +22,7 @@ import me.neiru1.udi.config.ModConfig;
 public class UDI {
     public static final String MODID = "udi";
     private static final Logger LOGGER = LogUtils.getLogger();
-    private String latestVersion;
-    private final String version = "1.0.0"; 
+    private final String version = "1.0.1"; 
     
 
     public UDI() {
@@ -42,34 +37,10 @@ public class UDI {
         // commands 
         FMLJavaModLoadingContext.get().getModEventBus().register(new UDIMainCmds());
         MinecraftForge.EVENT_BUS.register(new UDIMainCmds());
-
-        // updates
-        checkUpdates();
     }
 
     private void setup(final FMLCommonSetupEvent event) {
         LOGGER.info("[UnDroppableItems] Setup complete. Version: {}", version);
-    }
-
-    private void checkUpdates() {
-        new Thread(() -> {
-            try {
-                HttpURLConnection con = (HttpURLConnection) new URL(
-                        "https://api.spigotmc.org/legacy/update.php?resource=92280")
-                        .openConnection();
-                int timeout = 1250;
-                con.setConnectTimeout(timeout);
-                con.setReadTimeout(timeout);
-                latestVersion = new BufferedReader(new InputStreamReader(con.getInputStream())).readLine();
-
-                if (latestVersion.length() <= 7 && !version.equals(latestVersion)) {
-                    LOGGER.warn("[UnDroppableItems] There is a new version available: {}", latestVersion);
-                    LOGGER.warn("[UnDroppableItems] You can download it at: https://www.spigotmc.org/resources/undroppableitems-make-the-items-you-want-undroppable.92280/");
-                }
-            } catch (Exception ex) {
-                LOGGER.error("[UnDroppableItems] Error while checking update.", ex);
-            }
-        }).start();
     }
 
     public static ModConfig getConfig() {
@@ -80,7 +51,4 @@ public class UDI {
         return version;
     }
 
-    public String getLatestVersion() {
-        return latestVersion;
-    }
 }

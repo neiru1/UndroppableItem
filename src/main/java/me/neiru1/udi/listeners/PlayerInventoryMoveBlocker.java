@@ -41,16 +41,14 @@ public class PlayerInventoryMoveBlocker {
 
             boolean isInPlayerInventory = slot.container == player.getInventory();
 
-            // ✅ FIX: Use a predicate to match the stack
             boolean isInCurios = CuriosApi.getCuriosHelper()
                     .findCurios(player, s -> ItemStack.isSameItemSameTags(s, stack))
                     .size() > 0;
 
             if (isInPlayerInventory || isInCurios) {
-                continue; // Allowed
+                continue;
             }
 
-            // Otherwise, revert the item move: clear this slot and put back to inventory
             ItemStack copy = stack.copy();
             slot.set(ItemStack.EMPTY);
             player.getInventory().placeItemBackInInventory(copy);
