@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Specification-Title: UndroppableItem
-Specification-Vendor: neiru1
-Specification-Version: 1
-Implementation-Title: UndroppableItem
-Implementation-Version: 1.0
-Implementation-Vendor: neiru1
-Implementation-Timestamp: 2025-05-25T01:56:09+0800
-
