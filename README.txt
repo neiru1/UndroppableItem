@@ -13,4 +13,4 @@ Current issues:s
 Changelog:
 1.0.0 Base release
 1.0.1 Allows tranfer to specified container through config
-1.0.2 Added fallback system with uuid owner claim to avoid duplicates. Indirect mod supports that adds custom inventories that can bypass the flag. + Colored warning
+1.0.3 (+1.0.2) Added fallback system with uuid owner claim to avoid duplicates. Indirect mod supports that adds custom inventories that can bypass the flag. + Colored warning
