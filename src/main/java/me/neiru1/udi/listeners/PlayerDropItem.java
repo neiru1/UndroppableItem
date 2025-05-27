@@ -1,6 +1,9 @@
 package me.neiru1.udi.listeners;
 
 import me.neiru1.udi.config.ModConfig;
+import me.neiru1.udi.util.MessageRateLimiter;
+import me.neiru1.udi.UDI;
+import me.neiru1.udi.util.UDIModState;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -17,6 +20,7 @@ public class PlayerDropItem {
 
     @SubscribeEvent
     public static void onItemToss(ItemTossEvent event) {
+        if (!UDIModState.isModEnabled) return;
         Player player = event.getPlayer();
         ItemStack itemStack = event.getEntity().getItem();
 

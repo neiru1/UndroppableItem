@@ -1,6 +1,8 @@
 package me.neiru1.udi.listeners;
 
 import me.neiru1.udi.config.ModConfig;
+import me.neiru1.udi.UDI;
+import me.neiru1.udi.util.UDIModState;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -19,6 +21,7 @@ public class PlayerDeath {
 
     @SubscribeEvent
     public void onPlayerDeath(LivingDropsEvent event) {
+        if (!UDIModState.isModEnabled) return;
         if (!(event.getEntity() instanceof Player)) return;
         Player player = (Player) event.getEntity();
 

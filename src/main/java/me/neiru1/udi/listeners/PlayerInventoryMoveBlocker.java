@@ -1,6 +1,9 @@
 package me.neiru1.udi.listeners;
 
 import me.neiru1.udi.config.ModConfig;
+import me.neiru1.udi.util.MessageRateLimiter;
+import me.neiru1.udi.UDI;
+import me.neiru1.udi.util.UDIModState;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -28,11 +31,15 @@ import top.theillusivec4.curios.api.SlotResult;
 import java.util.List;
 
 @Mod.EventBusSubscriber(modid = "udi", bus = Mod.EventBusSubscriber.Bus.FORGE)
+
+
+
 public class PlayerInventoryMoveBlocker {
 
     @SubscribeEvent
     // checks when container is closed  
     public static void onContainerClose(PlayerContainerEvent.Close event) {
+        if (!UDIModState.isModEnabled) return;
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
         if (player.level().isClientSide) return;
 
@@ -54,6 +61,7 @@ public class PlayerInventoryMoveBlocker {
     @SubscribeEvent
     // checks playerticks
     public static void onPlayerTick(PlayerTickEvent event) {
+        if (!UDIModState.isModEnabled) return;
         if (!(event.player instanceof ServerPlayer player)) return;
         if (player.level().isClientSide) return;
 
@@ -91,6 +99,7 @@ public class PlayerInventoryMoveBlocker {
             boolean success = player.getInventory().add(copy);
             if (!success) player.drop(copy, false);
 
+            // returns message to player
             String msg = ModConfig.cannotDropMessage.get();
             if (msg != null && !msg.isBlank() && MessageRateLimiter.canSendMessage(player.getUUID())) {
             String itemName = stack.getHoverName().getString();
@@ -132,9 +141,13 @@ public class PlayerInventoryMoveBlocker {
             boolean success = player.getInventory().add(copy);
             if (!success) player.drop(copy, false);
 
+            // returns message to player
             String msg = ModConfig.cannotDropMessage.get();
-            if (msg != null && !msg.isBlank()) {
-                player.sendSystemMessage(Component.literal(msg));
+            if (msg != null && !msg.isBlank() && MessageRateLimiter.canSendMessage(player.getUUID())) {
+            String itemName = stack.getHoverName().getString();
+            Component message = Component.literal(msg + " (" + itemName + ")")
+            .withStyle(style -> style.withColor(ChatFormatting.RED));
+            player.sendSystemMessage(message);
             }
         }
     }
