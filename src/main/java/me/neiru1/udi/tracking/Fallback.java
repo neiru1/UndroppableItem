@@ -17,6 +17,7 @@ import net.minecraftforge.event.server.ServerStartedEvent;
 
 import me.neiru1.udi.config.ModConfig;
 import me.neiru1.udi.UDI;
+import me.neiru1.udi.util.UDIModState;
 
 import java.util.*;
 
@@ -27,6 +28,7 @@ public class Fallback {
 
 @SubscribeEvent
     public static void onPlayerTickAssignOwnership(TickEvent.PlayerTickEvent event) {
+        if (!UDIModState.isModEnabled) return;
         if (!(event.player instanceof ServerPlayer player)) return;
         if (player.level().isClientSide) return;
 
@@ -53,6 +55,7 @@ public class Fallback {
 
 @SubscribeEvent
     public static void onServerTick(TickEvent.ServerTickEvent event) {
+        if (!UDIModState.isModEnabled) return;
         if (event.phase == TickEvent.Phase.END) {
            MinecraftServer server = UDI.serverInstance;
         if (server != null) {
@@ -93,7 +96,7 @@ public class Fallback {
 
             ServerPlayer player = server.getPlayerList().getPlayer(playerId);
             if (player == null) {
-                if (now - tracked.lastSeenTime > 5000) {
+                if (now - tracked.lastSeenTime > 5000) { // waits 5 seconds before fallback rule fires
                     iterator.remove();
                 }
                 continue;
