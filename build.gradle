@@ -5,7 +5,7 @@ plugins {
     id 'net.minecraftforge.gradle' version '5.1.+'
 }
 
-version = '1.0'
+version = '1.20.1-1.0.3'
 group = 'me.neiru1.UDI'
 
 base {
@@ -176,7 +176,7 @@ tasks.named('jar', Jar).configure {
         attributes([
                 'Specification-Title'     : "UndroppableItem",
                 'Specification-Vendor'    : "neiru1",
-                'Specification-Version'   : "1", // We are version 1 of ourselves
+                'Specification-Version'   : "1.0.2", // We are version 1 of ourselves
                 'Implementation-Title'    : project.name,
                 'Implementation-Version'  : project.jar.archiveVersion,
                 'Implementation-Vendor'   : "neiru1",
