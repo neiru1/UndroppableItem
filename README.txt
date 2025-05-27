@@ -9,3 +9,8 @@ Current issues:s
 - Unable to use "/udi" in-game commands
 - Not thoroughly tested. Potential external inventory issues (such as crafting table, anvil, etc).
 - May not recognize modded inventories. Undroppable effect may not function.
+
+Changelog:
+1.0.0 Base release
+1.0.1 Allows tranfer to specified container through config
+1.0.2 Added fallback system with uuid owner claim to avoid duplicates. Indirect mod supports that adds custom inventories that can bypass the flag. + Colored warning
