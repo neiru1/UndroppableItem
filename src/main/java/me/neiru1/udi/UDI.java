@@ -11,36 +11,55 @@ import org.slf4j.Logger;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.event.RegisterCommandsEvent;
-
+import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
+import net.minecraftforge.event.TickEvent;
 
 import me.neiru1.udi.commands.UDIMainCmds;
 import me.neiru1.udi.listeners.PlayerDeath;
 import me.neiru1.udi.listeners.PlayerDropItem;
 import me.neiru1.udi.config.ModConfig;
+import me.neiru1.udi.tracking.Fallback;
+import me.neiru1.udi.util.MessageRateLimiter;
 
 @Mod("udi")
 public class UDI {
     public static final String MODID = "udi";
     private static final Logger LOGGER = LogUtils.getLogger();
-    private final String version = "1.0.1"; 
+    private final String version = "1.0.2";
+    public static MinecraftServer serverInstance;
     
 
     public UDI() {
         // config
         ModLoadingContext.get().registerConfig(Type.COMMON, ModConfig.COMMON_CONFIG);
+        // lifecycle event listener
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 
         // event listeners
         MinecraftForge.EVENT_BUS.register(new PlayerDropItem());
         MinecraftForge.EVENT_BUS.register(new PlayerDeath());
-
-        // commands 
-        FMLJavaModLoadingContext.get().getModEventBus().register(new UDIMainCmds());
         MinecraftForge.EVENT_BUS.register(new UDIMainCmds());
+        MinecraftForge.EVENT_BUS.register(this);
+
+        // registers the event bus
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.register(this);
+
+        // commands (no idea why is this not working)
+        FMLJavaModLoadingContext.get().getModEventBus().register(new UDIMainCmds());
+
     }
 
+    @SubscribeEvent
+        public void onServerStarted(ServerStartedEvent event) {
+    serverInstance = event.getServer();
+    System.out.println("[UDI] Server instance cached");
+}
+
+
     private void setup(final FMLCommonSetupEvent event) {
-        LOGGER.info("[UDI] Setup complete. Version: {}", version);
+        LOGGER.info("[UnDroppableItems] Setup complete. Version: {}", version);
     }
 
     public static ModConfig getConfig() {
@@ -52,3 +71,5 @@ public class UDI {
     }
 
 }
+
+    

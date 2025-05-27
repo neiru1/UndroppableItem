@@ -1,7 +1,7 @@
 {
   "pack": {
     "description": {
-      "text": "Adds Undroppable Item"
+      "text": "Adds undroppable effect on a specified item."
     },
     "pack_format": 15
   }

@@ -33,9 +33,14 @@ public class PlayerDropItem {
             // give the item back for drag-drop safety
             player.getInventory().placeItemBackInInventory(itemStack);
 
-            if (cannotDropMessage != null && !cannotDropMessage.isBlank()) {
-                player.sendSystemMessage(Component.literal(cannotDropMessage).withStyle(style -> style.withColor(ChatFormatting.RED)));
+        if (cannotDropMessage != null && !cannotDropMessage.isBlank()) {
+        if (MessageRateLimiter.canSendMessage(player.getUUID())) {
+        String itemName = itemStack.getHoverName().getString();
+        Component message = Component.literal(cannotDropMessage + " (" + itemName + ")")
+                .withStyle(style -> style.withColor(ChatFormatting.RED));
+            player.sendSystemMessage(message);
             }
+        }
         }
     }
 }
